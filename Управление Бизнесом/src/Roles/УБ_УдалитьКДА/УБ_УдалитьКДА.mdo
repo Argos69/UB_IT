@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:Role xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" uuid="51f50a0a-a800-4392-9c84-34d1ece2a522">
+  <name>УБ_УдалитьКДА</name>
+  <synonym>
+    <key>ru</key>
+    <value>У б удалить КДА</value>
+  </synonym>
+</mdclass:Role>
