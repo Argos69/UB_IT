@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DataCompositionSchema xmlns="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcscom="http://v8.1c.ru/8.1/data-composition-system/common" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<dataSource>
+		<name>ИсточникДанных1</name>
+		<dataSourceType>Local</dataSourceType>
+	</dataSource>
+	<dataSet xsi:type="DataSetQuery">
+		<name>НаборДанных1</name>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Приемник</dataPath>
+			<field>Приемник</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Приемник</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Картинка</dataPath>
+			<field>Картинка</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Картинка</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Статус</dataPath>
+			<field>Статус</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Статус</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>СостояниеЦели</dataPath>
+			<field>СостояниеЦели</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Значение</dataPath>
+			<field>Значение</field>
+			<title xsi:type="v8:LocalStringType">
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Значение</v8:content>
+				</v8:item>
+			</title>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>ЭтоГруппа</dataPath>
+			<field>ЭтоГруппа</field>
+		</field>
+		<field xsi:type="DataSetFieldField">
+			<dataPath>Родитель</dataPath>
+			<field>Родитель</field>
+		</field>
+		<dataSource>ИсточникДанных1</dataSource>
+		<query>ВЫБРАТЬ
+	СтруктураПредприятия.Ссылка КАК Значение,
+	СтруктураПредприятия.Родитель КАК Приемник,
+	ВЫБОР
+		КОГДА СтруктураПредприятия.Ссылка.ПометкаУдаления
+			ТОГДА 2
+		ИНАЧЕ 1
+	КОНЕЦ КАК Картинка,
+	ЗНАЧЕНИЕ(Перечисление.УБ_СостоянияПоказателейЭффективности.ПустаяСсылка) КАК Статус,
+	ЛОЖЬ КАК ЭтоГруппа,
+	NULL КАК Родитель
+{ВЫБРАТЬ
+	Значение.*,
+	Приемник.*,
+	Картинка,
+	Статус.*}
+ИЗ
+	Справочник.СтруктураПредприятия КАК СтруктураПредприятия
+{ГДЕ
+	(ЗНАЧЕНИЕ(Перечисление.УБ_СостоянияПоказателейЭффективности.ПустаяСсылка)).* КАК Статус}
+
+ОБЪЕДИНИТЬ ВСЕ
+
+ВЫБРАТЬ
+	УБ_Цели.Ссылка,
+	УБ_Цели.ПринадлежностьЦели,
+	ВЫБОР
+		КОГДА УБ_Цели.Ссылка.ПометкаУдаления
+			ТОГДА 5
+		ИНАЧЕ 4
+	КОНЕЦ,
+	УБ_Цели.СостояниеЦели,
+	УБ_Цели.ЭтоГруппа,
+	УБ_Цели.Родитель
+ИЗ
+	Справочник.УБ_Цели КАК УБ_Цели
+{ГДЕ
+	УБ_Цели.СостояниеЦели.*}</query>
+	</dataSet>
+	<dataSetLink>
+		<sourceDataSet>НаборДанных1</sourceDataSet>
+		<destinationDataSet>НаборДанных1</destinationDataSet>
+		<sourceExpression>Значение</sourceExpression>
+		<destinationExpression>Приемник</destinationExpression>
+		<startExpression>&amp;НачальноеЗначение</startExpression>
+	</dataSetLink>
+	<parameter>
+		<name>НачальноеЗначение</name>
+		<title xsi:type="v8:LocalStringType">
+			<v8:item>
+				<v8:lang>ru</v8:lang>
+				<v8:content>Начальное значение</v8:content>
+			</v8:item>
+		</title>
+		<valueType>
+			<v8:TypeId>8564b410-a8f1-4dc7-a26a-d02c83a0cd2b</v8:TypeId>
+		</valueType>
+		<useRestriction>false</useRestriction>
+		<valueListAllowed>true</valueListAllowed>
+	</parameter>
+	<settingsVariant>
+		<dcsset:name>Основной</dcsset:name>
+		<dcsset:presentation xsi:type="xs:string">Основной</dcsset:presentation>
+		<dcsset:settings xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows">
+			<dcsset:selection>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Значение</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Приемник</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Картинка</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>Родитель</dcsset:field>
+				</dcsset:item>
+				<dcsset:item xsi:type="dcsset:SelectedItemField">
+					<dcsset:field>ЭтоГруппа</dcsset:field>
+				</dcsset:item>
+			</dcsset:selection>
+			<dcsset:item xsi:type="dcsset:StructureItemGroup">
+				<dcsset:order>
+					<dcsset:item xsi:type="dcsset:OrderItemAuto"/>
+				</dcsset:order>
+				<dcsset:selection>
+					<dcsset:item xsi:type="dcsset:SelectedItemAuto"/>
+				</dcsset:selection>
+			</dcsset:item>
+		</dcsset:settings>
+	</settingsVariant>
+</DataCompositionSchema>
